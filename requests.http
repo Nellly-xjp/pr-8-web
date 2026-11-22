@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:3000
+@collectionId = replace-with-collection-uuid
+@clothingId = replace-with-clothing-uuid
+
+### Create a seasonal collection
+POST {{baseUrl}}/clothing/collections
+Content-Type: application/json
+
+{
+  "name": "Autumn Essentials",
+  "season": "Autumn"
+}
+
+### Create clothing with collection and cascade-saved materials
+POST {{baseUrl}}/clothing
+Content-Type: application/json
+
+{
+  "title": "Classic Wool Coat",
+  "price": 129.99,
+  "size": "M",
+  "color": "Camel",
+  "collectionId": "{{collectionId}}",
+  "materials": [
+    { "name": "Cotton", "percentage": 30 },
+    { "name": "Wool", "percentage": 70 }
+  ]
+}
+
+### Get a clothing item with collection and materials
+GET {{baseUrl}}/clothing/{{clothingId}}
+
+### Filter clothing by material using QueryBuilder
+GET {{baseUrl}}/clothing?material=Cotton
+
+### Update clothing
+PATCH {{baseUrl}}/clothing/{{clothingId}}
+Content-Type: application/json
+
+{
+  "price": 119.99
+}
+
+### Delete clothing
+DELETE {{baseUrl}}/clothing/{{clothingId}}
